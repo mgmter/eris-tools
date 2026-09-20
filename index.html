@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eris Tools</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:      #f9f9f7;
+    --card:    #e8e4de;
+    --card2:   #141414;
+    --text:    #141414;
+    --text2:   #6a6660;
+    --text3:   #a09c98;
+    --border:  rgba(0,0,0,0.1);
+    --radius:  12px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  /* ── header ── */
+  nav {
+    padding: 20px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  .nav-logo span { color: var(--text2); font-weight: 400; }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    font-size: 13.5px;
+    color: var(--text2);
+  }
+
+  .nav-links a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  /* ── hero ── */
+  .hero {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 80px 48px 64px;
+  }
+
+  .hero-eyebrow {
+    font-size: 13px;
+    color: var(--text3);
+    margin-bottom: 20px;
+    letter-spacing: 0.01em;
+  }
+
+  .hero-title {
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+    max-width: 680px;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--text2);
+    line-height: 1.6;
+    max-width: 480px;
+    margin-bottom: 0;
+  }
+
+  /* ── tools grid ── */
+  .tools {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 48px 100px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .tool-card {
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tool-card.light { background: var(--card); }
+  .tool-card.dark  { background: var(--card2); }
+
+  .tool-top {
+    padding: 28px 28px 24px;
+    flex: 1;
+  }
+
+  .tool-tag {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  .tool-card.dark .tool-tag { color: #fff; }
+  .tool-card.light .tool-tag { color: var(--text); }
+
+  .tool-name {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+
+  .tool-card.dark .tool-name { color: #fff; }
+
+  .tool-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text2);
+    margin-bottom: 20px;
+  }
+
+  .tool-card.dark .tool-desc { color: #888; }
+
+  .feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .feature {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text2);
+  }
+
+  .tool-card.dark .feature { color: #777; }
+
+  .feature-dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--text3);
+    flex-shrink: 0;
+  }
+
+  .tool-card.dark .feature-dot { background: #555; }
+
+  .tool-bottom {
+    padding: 20px 28px;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .tool-card.dark .tool-bottom { border-top-color: rgba(255,255,255,0.06); }
+
+  .tool-platform {
+    font-size: 12px;
+    color: var(--text3);
+  }
+
+  .tool-card.dark .tool-platform { color: #555; }
+
+  .tool-btn {
+    padding: 9px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.15s;
+    display: inline-block;
+    font-family: inherit;
+    border: none;
+  }
+
+  .tool-btn:hover { opacity: 0.8; }
+
+  .btn-dark { background: var(--text); color: #fff; }
+  .btn-light { background: #fff; color: var(--text); }
+  .btn-outline { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+
+  /* ── preview mockup inside card ── */
+  .tool-preview {
+    margin: 0 28px 24px;
+    background: rgba(0,0,0,0.06);
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 12px;
+    color: var(--text2);
+  }
+
+  .tool-card.dark .tool-preview {
+    background: rgba(255,255,255,0.04);
+    color: #666;
+  }
+
+  .preview-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 6px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: var(--text);
+  }
+
+  .tool-card.dark .preview-row {
+    background: rgba(255,255,255,0.05);
+    color: #ccc;
+  }
+
+  .preview-row:last-child { margin-bottom: 0; }
+
+  .preview-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .dot-green  { background: #22c55e; }
+  .dot-yellow { background: #f59e0b; }
+
+  .preview-score {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--text3);
+  }
+
+  .tool-card.dark .preview-score { color: #555; }
+
+  /* ── photo preview ── */
+  .photo-preview {
+    margin: 0 28px 24px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .photo-thumb {
+    aspect-ratio: 1;
+    border-radius: 6px;
+    background: rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .photo-thumb::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,0,0,0.03) 0%, rgba(0,0,0,0.08) 100%);
+  }
+
+  .photo-badge {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    font-size: 9px;
+    background: rgba(255,255,255,0.85);
+    color: #333;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-weight: 500;
+    z-index: 1;
+  }
+
+  /* ── footer ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--text3);
+  }
+
+  /* ── responsive ── */
+  @media (max-width: 640px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 48px 20px 40px; }
+    .tools { padding: 0 20px 60px; grid-template-columns: 1fr; }
+    footer { padding: 20px; flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Eris <span>Tools</span></div>
+  <div class="nav-links">
+    <a href="#tools">Tools</a>
+    <a href="mailto:hello@erismgmt.com">Contact</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">Built for creator agencies</div>
+  <h1 class="hero-title">Repurpose content without the headache</h1>
+  <p class="hero-sub">Two tools for making every piece of content platform-ready — videos that pass fingerprint checks, photos that look fresh every time.</p>
+</div>
+
+<div class="tools" id="tools">
+
+  <!-- Video tool -->
+  <div class="tool-card light">
+    <div class="tool-top">
+      <div class="tool-tag">VIDEO</div>
+      <div class="tool-name">Video Repurpose</div>
+      <div class="tool-desc">Generate multiple unique copies of any video. Each copy gets randomised metadata, micro pixel edits, and a similarity score so you know it's safe to upload.</div>
+      <div class="feature-list">
+        <div class="feature"><div class="feature-dot"></div>Metadata randomisation</div>
+        <div class="feature"><div class="feature-dot"></div>Zoom, rotation, brightness tweaks</div>
+        <div class="feature"><div class="feature-dot"></div>Built-in similarity checker</div>
+        <div class="feature"><div class="feature-dot"></div>Works with MOV, MP4, MKV</div>
+      </div>
+    </div>
+
+    <div class="tool-preview">
+      <div class="preview-row">
+        <div class="preview-dot dot-green"></div>
+        video_copy01.mov
+        <span class="preview-score">23.4% · Safe</span>
+      </div>
+      <div class="preview-row">
+        <div class="preview-dot dot-green"></div>
+        video_copy02.mov
+        <span class="preview-score">38.1% · Safe</span>
+      </div>
+      <div class="preview-row">
+        <div class="preview-dot dot-yellow"></div>
+        video_copy03.mov
+        <span class="preview-score">81.2% · Review</span>
+      </div>
+    </div>
+
+    <div class="tool-bottom">
+      <span class="tool-platform">Mac desktop app</span>
+      <a href="#" class="tool-btn btn-dark">Download app</a>
+    </div>
+  </div>
+
+  <!-- Photo tool -->
+  <div class="tool-card dark">
+    <div class="tool-top">
+      <div class="tool-tag">PHOTO</div>
+      <div class="tool-name">Photo Repurpose</div>
+      <div class="tool-desc">Upload once, get multiple edited copies with randomised brightness, contrast, crop, noise, and motion blur. HEIC supported. No install needed.</div>
+      <div class="feature-list">
+        <div class="feature"><div class="feature-dot"></div>Brightness, contrast, grain</div>
+        <div class="feature"><div class="feature-dot"></div>Micro crop + motion blur</div>
+        <div class="feature"><div class="feature-dot"></div>EXIF data stripped</div>
+        <div class="feature"><div class="feature-dot"></div>JPG, PNG, HEIC supported</div>
+      </div>
+    </div>
+
+    <div class="photo-preview">
+      <div class="photo-thumb">🏔️<span class="photo-badge">+2.1%</span></div>
+      <div class="photo-thumb">🏔️<span class="photo-badge">−1.8%</span></div>
+      <div class="photo-thumb">🏔️<span class="photo-badge">+0.9%</span></div>
+    </div>
+
+    <div class="tool-bottom">
+      <span class="tool-platform">Web app · any browser</span>
+      <a href="photo-repurpose.html" class="tool-btn btn-outline">Open tool</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span>Eris MGMT · Oslo</span>
+  <span>Internal tools · not for redistribution</span>
+</footer>
+
+</body>
+</html>
